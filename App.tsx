@@ -9,6 +9,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import Bridge from './Picker';
 
 const App: React.FC = ({}) => {
   const height = useSharedValue<number>(300);
@@ -30,14 +31,14 @@ const App: React.FC = ({}) => {
     };
   });
   const eventHandler = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {
+    onStart: (_event, _ctx) => {
       pressed.value = true;
     },
-    onActive: (event, ctx) => {
+    onActive: (event, _ctx) => {
       x.value = 100 + event.translationX;
       y.value = 100 + event.translationY;
     },
-    onEnd: (event, ctx) => {
+    onEnd: (_event, _ctx) => {
       pressed.value = false;
       x.value = withSpring(100);
       y.value = withSpring(100);
@@ -67,7 +68,7 @@ const App: React.FC = ({}) => {
       <Animated.View style={animatedSRed} />
       <Button
         onPress={() => {
-          offset.value = withSpring(Math.random() * 300, {}, finished => {});
+          offset.value = withSpring(Math.random() * 300, {}, _finished => {});
         }}
         title="Move"
       />
@@ -76,6 +77,13 @@ const App: React.FC = ({}) => {
           style={[{height: 50, width: 50, borderRadius: 50}, uas]}
         />
       </PanGestureHandler>
+      <Bridge
+        data={['test1', 'test2', 'test3', 'test4', 'test5']}
+        style={{
+          width: '100%',
+          height: 200,
+        }}
+      />
     </SafeAreaView>
   );
 };
